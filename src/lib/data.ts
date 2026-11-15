@@ -135,7 +135,7 @@ export async function getMaterial(slug: string): Promise<MaterialFull | null> {
     .eq("slug", slug)
     .eq("is_published", true)
     .maybeSingle();
-  return data;
+    return data as unknown as MaterialFull | null;
 }
 
 export function formatSize(bytes: number | null): string {
