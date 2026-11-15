@@ -1,4 +1,4 @@
-import { cacheLife } from "next/cache";
+import { cacheLife, cacheTag } from "next/cache";
 import { supabase } from "@/lib/supabase";
 
 export type Level = { id: number; slug: string; name: string };
@@ -27,6 +27,7 @@ const MATERIAL_FIELDS =
 export async function getLevel(slug: string): Promise<Level | null> {
   "use cache";
   cacheLife("minutes");
+  cacheTag("materials");
   const { data } = await supabase
     .from("levels")
     .select("id, slug, name")
@@ -38,6 +39,7 @@ export async function getLevel(slug: string): Promise<Level | null> {
 export async function getSubjects(levelId: number): Promise<Subject[]> {
   "use cache";
   cacheLife("minutes");
+  cacheTag("materials");
   const { data } = await supabase
     .from("subjects")
     .select("id, slug, name")
@@ -52,6 +54,7 @@ export async function getSubject(
 ): Promise<Subject | null> {
   "use cache";
   cacheLife("minutes");
+  cacheTag("materials");
   const { data } = await supabase
     .from("subjects")
     .select("id, slug, name")
@@ -64,6 +67,7 @@ export async function getSubject(
 export async function getCategories(): Promise<Category[]> {
   "use cache";
   cacheLife("minutes");
+  cacheTag("materials");
   const { data } = await supabase
     .from("categories")
     .select("id, slug, name")
@@ -74,6 +78,7 @@ export async function getCategories(): Promise<Category[]> {
 export async function getCategory(slug: string): Promise<Category | null> {
   "use cache";
   cacheLife("minutes");
+  cacheTag("materials");
   const { data } = await supabase
     .from("categories")
     .select("id, slug, name")
@@ -87,6 +92,7 @@ export async function getCategoryCounts(
 ): Promise<Record<string, number>> {
   "use cache";
   cacheLife("minutes");
+  cacheTag("materials");
   const { data } = await supabase
     .from("materials")
     .select("category_id")
@@ -105,6 +111,7 @@ export async function getMaterials(
 ): Promise<Material[]> {
   "use cache";
   cacheLife("minutes");
+  cacheTag("materials");
   const { data } = await supabase
     .from("materials")
     .select(MATERIAL_FIELDS)
@@ -119,6 +126,7 @@ export async function getMaterials(
 export async function getMaterial(slug: string): Promise<MaterialFull | null> {
   "use cache";
   cacheLife("minutes");
+  cacheTag("materials");
   const { data } = await supabase
     .from("materials")
     .select(
