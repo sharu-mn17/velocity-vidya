@@ -6,6 +6,7 @@ import type { Session } from "@supabase/supabase-js";
 import { Check, Copy, Eye, EyeOff, LogOut, Trash2, Upload } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import { refreshSite } from "@/app/admin/actions";
+import VideoAdmin from "@/components/admin/VideoAdmin";
 
 type Level = { id: number; slug: string; name: string };
 type Subject = { id: number; level_id: number; slug: string; name: string };
@@ -382,6 +383,7 @@ function Dashboard({ session }: { session: Session }) {
           </div>
         </div>
       </div>
+      <VideoAdmin session={session} />
     </>
   );
 }

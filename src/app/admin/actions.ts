@@ -13,5 +13,6 @@ export async function refreshSite(accessToken: string) {
   const { data } = await sb.rpc("is_admin");
   if (data !== true) return { ok: false };
   updateTag("materials");
+    updateTag("videos");
   return { ok: true };
 }

@@ -1,6 +1,8 @@
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
+import SearchBar from "@/components/SearchBar";
 import CourseCards from "@/components/CourseCards";
+import VideoSection from "@/components/VideoSection";
 import Footer from "@/components/Footer";
 
 export default function Home() {
@@ -9,8 +11,11 @@ export default function Home() {
       <Navbar />
       <main>
         <Hero />
+        <div className="px-4">
+          <SearchBar />
+        </div>
         <CourseCards />
-        <section id="videos" />
+        <VideoSection />
       </main>
       <Footer />
     </>

@@ -145,3 +145,36 @@ export function formatSize(bytes: number | null): string {
     ? `${mb.toFixed(1)} MB`
     : `${Math.max(1, Math.round(bytes / 1024))} KB`;
 }
+export async function searchMaterials(q: string): Promise<MaterialFull[]> {
+  const term = q.replace(/[%,()*\\]/g, " ").trim();
+  if (!term) return [];
+  const { data } = await supabase
+    .from("materials")
+    .select(
+      `${MATERIAL_FIELDS}, levels(slug, name), subjects(slug, name), categories(slug, name)`
+    )
+    .eq("is_published", true)
+    .or(`title.ilike.%${term}%,description.ilike.%${term}%`)
+    .order("created_at", { ascending: false })
+    .limit(30);
+  return (data as unknown as MaterialFull[]) ?? [];
+}
+export type Video = {
+  id: string;
+  youtube_id: string;
+  title: string;
+  description: string | null;
+};
+
+export async function getVideos(): Promise<Video[]> {
+  "use cache";
+  cacheLife("minutes");
+  cacheTag("videos");
+  const { data } = await supabase
+    .from("videos")
+    .select("id, youtube_id, title, description")
+    .eq("is_published", true)
+    .order("created_at", { ascending: false })
+    .limit(12);
+  return data ?? [];
+}

@@ -5,6 +5,7 @@ import PageShell from "@/components/PageShell";
 import Breadcrumb from "@/components/Breadcrumb";
 import { supabase } from "@/lib/supabase";
 import { getMaterial, formatSize } from "@/lib/data";
+import type { Metadata } from "next";
 
 type Props = {
   params: Promise<{ level: string; subject: string; category: string; slug: string }>;
@@ -66,4 +67,15 @@ async function MaterialContent({ params }: Props) {
       </div>
     </>
   );
+}
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { slug } = await params;
+  const m = await getMaterial(slug);
+  if (!m) return { title: "Not found" };
+  return {
+    title: `${m.title} | Velocity Vidya`,
+    description:
+      m.description?.slice(0, 160) ??
+      `${m.subjects.name} ${m.categories.name} for ${m.levels.name}. Free download on Velocity Vidya.`,
+  };
 }
